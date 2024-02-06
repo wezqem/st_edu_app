@@ -2,4 +2,4 @@ pandas
 numpy
 plotly
 scikit-learn
-opencv-python
+opencv-python-headless
