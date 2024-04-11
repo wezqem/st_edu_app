@@ -32,7 +32,7 @@ st.sidebar.markdown((
 if calc == 'セットアップ方法':
     st.header('ここではStreamlitのセットアップ方法を紹介します。')
     st.subheader('準備')
-    st.markdown("""まずはメインディレクトリに任意の名前のpythonファイルを作成してください。ここでは便宜上`main.py`とします。""")
+    st.markdown("""まずはメインディレクトリに任意の名前のpythonファイルを作成してください。ここでは便宜上`app.py`とします。""")
     st.subheader('Streamlitライブラリのインストール')
     st.code('pip install streamlit')
     st.subheader('Streamlitアプリの起動')
@@ -44,17 +44,17 @@ if calc == 'セットアップ方法':
     st.divider()
     st.subheader('おまけ')
     st.markdown("""
-                Streamlitでは、アプリケーションの中身を書き換えた際、画面に反映させるためにはリロードし直す必要がある。
-                Streamlitアプリケーションファイルと同ディレクトリ内に`.streamlit`というディレクトリを作成し、その中に`config.toml`という設定ファイルを作成する。
+                Streamlitでは、アプリケーションの中身を書き換えた際、画面に反映させるためにはリロードし直す必要があります。
+                Streamlitアプリケーションファイルと同ディレクトリ内に`.streamlit`というディレクトリを作成し、その中に`config.toml`という設定ファイルを作成します。
                 このファイルに以下の内容を記載する。
                 ```
                 [server]
                 runOnSave = true
                 ```
-                この設定を行うことで、アプリケーションのファイルを更新するたび、自動でリロードが入るため楽ができる。
+                この設定を行うことで、アプリケーションのファイルを更新するたび、自動でリロードが入るため楽ができます。
                 
                 
-                ディレクトリ関係は以下のようになる。
+                ディレクトリ関係は以下のようになります。
                 ```
                 (任意のディレクトリ)
                 ├── app.py
