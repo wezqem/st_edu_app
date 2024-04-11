@@ -40,6 +40,8 @@ if calc == 'セットアップ方法':
     st.info('起動した時点では何も入力していないため、何も表示されません。')
     st.write('Streamlitアプリを作成するにあたり、下記のコードでインポートしておきましょう。')
     st.code('import streamlit as st')
+    st.write('また、今回のデモで使用するライブラリをインストールしておいてください。')
+    st.code("pip install pandas numpy plotly scikit-learn opencv-python-headless")
 
     st.divider()
     st.subheader('おまけ')
