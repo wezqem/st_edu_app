@@ -25,6 +25,7 @@ st.sidebar.markdown((
 - [書籍](https://www.amazon.com/dp/180056550X) (データサイエンスのためのStreamlit入門)
 - [ブログ](https://blog.streamlit.io/how-to-master-streamlit-for-data-science/) (データサイエンスのためのStreamlitの使いこなし方)
 - [API reference](https://docs.streamlit.io/library/api-reference)(機能の詳細)
+- [GitHub](https://github.com/wezqem/st_edu_app/blob/main/st_edu_app.py)(ソースコード)
 """
 ))
 
