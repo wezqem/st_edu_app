@@ -4,7 +4,7 @@ st.title("Streamlit 超入門")
 
 with st.expander('Streamlit 超入門について'):
     st.markdown("""
-            このアプリケーションは、Streamlitアプリの構築を始めるにあたって、必要最低限の知識をつけるためにご用意しました。
+            このページでは、Streamlitアプリの構築を始めるにあたって、必要最低限の知識をつけるためにご用意しました。
             各ウィジェットの実装から、ウィジェットに対してデータを渡してデータ解析が可能なアプリケーションの構築の方法を紹介します。
     """)
 
@@ -33,31 +33,46 @@ st.sidebar.markdown((
 if calc == 'セットアップ方法':
     st.header('ここではStreamlitのセットアップ方法を紹介します。')
     st.subheader('準備')
-    st.markdown("""まずはメインディレクトリに任意の名前のpythonファイルを作成してください。ここでは便宜上`app.py`とします。""")
+    st.markdown("""
+                まずは以下のコマンドでディレクトリを作成し、作成したディレクトリに移動します。\n
+                その後、別ウィンドウでvscodeを起動しておきましょう。
+                """)
+    st.code('''
+            mkdir streamlit-tutorial
+            cd streamlit-tutorial
+            code .
+            ''')
     st.subheader('Streamlitライブラリのインストール')
+    st.markdown('ターミナル上で以下のコマンドを実行し、Streamlitをインストールします。')
     st.code('pip install streamlit')
     st.subheader('Streamlitアプリの起動')
+    st.markdown('''
+                それでは、アプリケーションを起動するためにファイルを作成します。\n
+                ルートディレクトリに`app.py`というPythonファイルを作成してください。\n
+                このファイルがアプリケーションとなります。\n
+                作成できたら、以下のコマンドをターミナル上で実行しアプリケーションを起動させましょう。
+                ''')
     st.code('streamlit run app.py')
     st.info('起動した時点では何も入力していないため、何も表示されません。')
-    st.write('Streamlitアプリを作成するにあたり、下記のコードでインポートしておきましょう。')
+    st.write('以下のコードを先ほど作成した`app.py`に記載しておきましょう。')
     st.code('import streamlit as st')
-    st.write('また、今回のデモで使用するライブラリをインストールしておいてください。')
-    st.code("pip install pandas numpy plotly scikit-learn opencv-python-headless")
+    st.write('また、今回のデモで使用するライブラリを以下のコマンドをターミナル上で実行し、インストールしておいてください。')
+    st.code("pip install -r requirements.txt")
 
     st.divider()
-    st.subheader('おまけ')
+    st.subheader('便利な設定')
     st.markdown("""
                 Streamlitでは、アプリケーションの中身を書き換えた際、画面に反映させるためにはリロードし直す必要があります。
-                Streamlitアプリケーションファイルと同ディレクトリ内に`.streamlit`というディレクトリを作成し、その中に`config.toml`という設定ファイルを作成します。
-                このファイルに以下の内容を記載する。
+                ルートディレクトリ内に`.streamlit`というディレクトリを作成し、その中に`config.toml`という設定ファイルを作成します。
+                このファイルに以下の内容を記載してください。
                 ```
                 [server]
                 runOnSave = true
                 ```
-                この設定を行うことで、アプリケーションのファイルを更新するたび、自動でリロードが入るため楽ができます。
+                この設定を行うことで、ファイルを更新するたび、自動でリロードが入り、アプリケーション側も同時に更新されるようになります。
                 
                 
-                ディレクトリ関係は以下のようになります。
+                ディレクトリ関係が以下のようになっていれば上手く設定できています。。
                 ```
                 (任意のディレクトリ)
                 ├── app.py
