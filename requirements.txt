@@ -1,5 +1,8 @@
 pandas 
+polars
 numpy
 plotly
 scikit-learn
 opencv-python-headless
+matplotlib
+scikit-image
