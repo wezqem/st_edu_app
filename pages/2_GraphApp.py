@@ -4,17 +4,9 @@ import polars as pl
 import matplotlib.pyplot as plt
 import plotly.express as px
 
-st.set_page_config(layout='wide')
+st.set_page_config(layout='center')
 
 st.title('グラフ可視化アプリ')
-
-st.markdown('''
-            
-        ''')
-
-st.code('''
-
-        ''')
 
 st.markdown('''
             このページでは読み込んだデータを用途に合ったグラフを選択することで、データを可視化するためのアプリケーションをハンズオン形式で学んでいきます。\n
@@ -25,7 +17,7 @@ st.markdown('''
 st.code('''
         import streamlit as st
 
-        st.set_page_config(layout="wide")
+        st.set_page_config(layout="center")
         
         st.title("グラフ可視化アプリ")
         ''')
@@ -92,23 +84,84 @@ st.markdown('''
         ''')
 
 st.code('''
-        plot_types = ['bar', 'scatter', 'vaioline']
+        plot_types = ['bar', 'scatter', 'vaiolin']
         select_type = st.radio('グラフの種類を選択してください。', plot_types)
         ''')
 
+st.markdown('''
+        リストで取得したグラフの種類がラジオボタンで生成されたと思います。\n
+        このラジオボタンが選択されたときに、それぞれのグラフが出力されるような条件式を書いていきたいと思います。\n
+        以下のコードを追記してください。
+        ''')
 
+st.code('''
+        import plotly.express as px
 
-uploaded_file = st.file_uploader('csvファイルをアップロードしてください。', type=['csv'])
+        if uploaded_file :
+                
+                (略)
 
-if uploaded_file :
-        df = pd.read_csv(uploaded_file)
-        st.dataframe(df.head())
+                if select_type == 'bar':
+                        fig = px.bar(df, x_col, y_col)
+                elif select_type == 'scatter':
+                        fig = px.scatter(df, x_col, y_col)
+                else:
+                        fig = px.violin(df, x_col, y_col)
+                st.plotly_chart(fig)
+        ''')
 
-        columns = df.columns
-        column_list = columns.to_list()
-        column_list = [None] + column_list
-        x_col = st.selectbox('x軸を選択してください。', column_list)
-        y_col = st.selectbox('y軸を選択してください。', column_list)
+st.markdown('''
+        グラフが表示されたと思います。\n
+        Plotlyの`scatter_3d`メソッドを使用することで散布図の3Dプロットも表示することができます。\n
+        興味がある方は挑戦してみてください。\n
+        ''')
+st.info('''
+        Hint💡 : z軸のデータを追加し、条件式を編集してみてください。\n
+        答えは全体コードに記載しています。
+        ''')
 
-        plot_types = ['bar', 'scatter', 'vaioline']
-        select_type = st.radio('グラフの種類を選択してください。', plot_types)
+st.markdown('''
+        お疲れ様でした。\n
+        本ページではグラフを可視化するためのアプリケーションを作成しました。\n
+        グラフの種類を追加したり、複数のデータを選択することでデータを比較したりなど他機能を追加してみてください。
+        以下に全体のコードを記載しておきます。
+        ''')
+
+st.code('''
+        import pandas as pd
+        import plotly.express as px
+        import streamlit as st
+
+        st.set_page_config(layout="center")
+        
+        st.title("グラフ可視化アプリ")
+
+        uploaded_file = st.file_uploader('csvファイルをアップロードしてください。', type=['csv'])
+
+        if uploaded_file :
+                df = pd.read_csv(uploaded_file)
+                st.dataframe(df.head())
+
+                columns = df.columns
+                column_list = columns.to_list()
+                column_list = [None] + column_list
+                x_col = st.selectbox('x軸を選択してください。', column_list)
+                y_col = st.selectbox('y軸を選択してください。', column_list)
+                z_col = st.selectbox('z軸を選択してください。', column_list)    # z軸の追加
+
+                plot_types = ['bar', 'scatter', 'vaiolin']
+                select_type = st.radio('グラフの種類を選択してください。', plot_types)
+
+                if select_type == 'bar':
+                        fig = px.bar(df, x_col, y_col)
+                if select_type == 'scatter':                                            # 2Dプロットか3Dプロットの条件分け
+                        if z_col :                                                      # ここではz軸が選択されたかされていないかで条件分岐
+                                fig = px.scatter_3d(df, x_col, y_col, z_col)
+                        else:
+                                fig = px.scatter(df, x_col, y_col)
+                if select_type == 'vaiolin':
+                        fig = px.violin(df, x_col, y_col)
+                st.plotly_chart(fig)
+
+        ''')
+
