@@ -5,4 +5,7 @@ plotly
 scikit-learn
 opencv-python-headless
 matplotlib
+japanize_matplotlib
 scikit-image
+xgboost
+lightgbm
