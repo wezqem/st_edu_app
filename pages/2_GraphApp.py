@@ -4,7 +4,7 @@ import polars as pl
 import matplotlib.pyplot as plt
 import plotly.express as px
 
-st.set_page_config(layout='center')
+st.set_page_config(layout='centered')
 
 st.title('グラフ可視化アプリ')
 
@@ -17,7 +17,7 @@ st.markdown('''
 st.code('''
         import streamlit as st
 
-        st.set_page_config(layout="center")
+        st.set_page_config(layout="centered")
         
         st.title("グラフ可視化アプリ")
         ''')
@@ -132,7 +132,7 @@ st.code('''
         import plotly.express as px
         import streamlit as st
 
-        st.set_page_config(layout="center")
+        st.set_page_config(layout="centered")
         
         st.title("グラフ可視化アプリ")
 
