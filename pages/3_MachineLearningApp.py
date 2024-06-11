@@ -5,14 +5,6 @@ st.set_page_config(layout='centered')
 st.title('機械学習アプリ')
 
 st.markdown('''
-
-            ''')
-
-st.code('''
-
-        ''')
-
-st.markdown('''
             このページでは読み込んだデータを使用して機械学習を行うためのアプリケーションを構築するためのハンズオンを提供します。\n
             新しく`MachineLearningApp.py`というファイルを作成し、アプリを起動してください。\n
             まずはページのレイアウトを設定し、グラフのタイトルを決めましょう。\n
