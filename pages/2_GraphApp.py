@@ -6,7 +6,7 @@ import plotly.express as px
 
 st.set_page_config(layout='centered')
 
-st.title('グラフ可視化アプリ')
+st.title('データ可視化アプリ')
 
 st.markdown('''
             このページでは読み込んだデータを用途に合ったグラフを選択することで、データを可視化するためのアプリケーションをハンズオン形式で学んでいきます。\n
@@ -19,7 +19,7 @@ st.code('''
 
         st.set_page_config(layout="centered")
         
-        st.title("グラフ可視化アプリ")
+        st.title("データ可視化アプリ")
         ''')
 
 st.markdown('''
@@ -122,7 +122,7 @@ st.info('''
 
 st.markdown('''
         お疲れ様でした。\n
-        本ページではグラフを可視化するためのアプリケーションを作成しました。\n
+        本ページではデータを可視化するためのアプリケーションを作成しました。\n
         グラフの種類を追加したり、複数のデータを選択することでデータを比較したりなど他機能を追加してみてください。
         以下に全体のコードを記載しておきます。
         ''')
@@ -134,7 +134,7 @@ st.code('''
 
         st.set_page_config(layout="centered")
         
-        st.title("グラフ可視化アプリ")
+        st.title("データ可視化アプリ")
 
         uploaded_file = st.file_uploader('csvファイルをアップロードしてください。', type=['csv'])
 
