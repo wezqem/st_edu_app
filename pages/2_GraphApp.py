@@ -127,41 +127,42 @@ st.markdown('''
         以下に全体のコードを記載しておきます。
         ''')
 
-st.code('''
-        import pandas as pd
-        import plotly.express as px
-        import streamlit as st
+with st.expander('全体コード'):
+        st.code('''
+                import pandas as pd
+                import plotly.express as px
+                import streamlit as st
 
-        st.set_page_config(layout="centered")
-        
-        st.title("データ可視化アプリ")
+                st.set_page_config(layout="centered")
+                
+                st.title("データ可視化アプリ")
 
-        uploaded_file = st.file_uploader('csvファイルをアップロードしてください。', type=['csv'])
+                uploaded_file = st.file_uploader('csvファイルをアップロードしてください。', type=['csv'])
 
-        if uploaded_file :
-                df = pd.read_csv(uploaded_file)
-                st.dataframe(df.head())
+                if uploaded_file :
+                        df = pd.read_csv(uploaded_file)
+                        st.dataframe(df.head())
 
-                columns = df.columns
-                column_list = columns.to_list()
-                column_list = [None] + column_list
-                x_col = st.selectbox('x軸を選択してください。', column_list)
-                y_col = st.selectbox('y軸を選択してください。', column_list)
-                z_col = st.selectbox('z軸を選択してください。', column_list)    # z軸の追加
+                        columns = df.columns
+                        column_list = columns.to_list()
+                        column_list = [None] + column_list
+                        x_col = st.selectbox('x軸を選択してください。', column_list)
+                        y_col = st.selectbox('y軸を選択してください。', column_list)
+                        z_col = st.selectbox('z軸を選択してください。', column_list)    # z軸の追加
 
-                plot_types = ['bar', 'scatter', 'vaiolin']
-                select_type = st.radio('グラフの種類を選択してください。', plot_types)
+                        plot_types = ['bar', 'scatter', 'vaiolin']
+                        select_type = st.radio('グラフの種類を選択してください。', plot_types)
 
-                if select_type == 'bar':
-                        fig = px.bar(df, x_col, y_col)
-                if select_type == 'scatter':                                            # 2Dプロットか3Dプロットの条件分け
-                        if z_col :                                                      # ここではz軸が選択されたかされていないかで条件分岐
-                                fig = px.scatter_3d(df, x_col, y_col, z_col)
-                        else:
-                                fig = px.scatter(df, x_col, y_col)
-                if select_type == 'vaiolin':
-                        fig = px.violin(df, x_col, y_col)
-                st.plotly_chart(fig)
+                        if select_type == 'bar':
+                                fig = px.bar(df, x_col, y_col)
+                        if select_type == 'scatter':                                            # 2Dプロットか3Dプロットの条件分け
+                                if z_col :                                                      # ここではz軸が選択されたかされていないかで条件分岐
+                                        fig = px.scatter_3d(df, x_col, y_col, z_col)
+                                else:
+                                        fig = px.scatter(df, x_col, y_col)
+                        if select_type == 'vaiolin':
+                                fig = px.violin(df, x_col, y_col)
+                        st.plotly_chart(fig)
 
-        ''')
+                ''')
 

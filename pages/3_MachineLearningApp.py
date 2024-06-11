@@ -427,307 +427,308 @@ st.markdown('''
         以下に全体のコードを記載しておきます。
         ''')
 
-st.code('''
-        ### ---- 機械学習デモアプリ ---- ###
+with st.expander('全体コード'):
+    st.code('''
+            ### ---- 機械学習デモアプリ ---- ###
 
-        ### ---- ライブラリ ---- ###
-        # データ分析用
-        import streamlit as st 
-        import pandas as pd 
-        import matplotlib.pyplot as plt 
-        import japanize_matplotlib
+            ### ---- ライブラリ ---- ###
+            # データ分析用
+            import streamlit as st 
+            import pandas as pd 
+            import matplotlib.pyplot as plt 
+            import japanize_matplotlib
 
-        # モデル学習用
-        from sklearn.model_selection import train_test_split
+            # モデル学習用
+            from sklearn.model_selection import train_test_split
 
-        # ランダムフォレスト
-        from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
-
-        # XGBosot
-        import xgboost as xgb
-
-        # LightGBM
-        import lightgbm as lgb
-
-        # 評価指標
-        from sklearn.metrics import r2_score, mean_absolute_error, mean_squared_error, accuracy_score, precision_score, recall_score, f1_score
-        from math import sqrt
-
-
-        ### ---- マルチページ作成 ---- ###
-        # サイドバーページを作成
-        pages = st.sidebar.radio('Pages', ['データ読み込み', '機械学習デモ'])
-
-        ### ---- データ読み込み ---- ###
-        if pages == 'データ読み込み':
-
-            # ページタイトルと説明
-            st.subheader('データ読み込み')
-            st.write('このページではデータの読み込み、およびデータの概要を確認することを目的とします。')
-
-            # セッションステートの初期化
-            if 'data' not in st.session_state:
-                st.session_state.data = None
-
-            uploaded_file = st.file_uploader('csvファイルをアップロードしてください。', type = ['csv'])
-
-            if uploaded_file :
-                df = pd.read_csv(uploaded_file)
-                st.write('データテーブル')
-                st.dataframe(df)
-                st.write('データの統計量')
-                st.write(df.describe())
-
-                col1, col2 = st.columns(2)
-
-                with col1 :
-                    st.write('欠損値の有無')
-                    st.write(df.isnull().sum())
-
-                with col2 :
-                    st.write('データの型')
-                    st.write(df.dtypes)
-                
-                st.session_state.data = df
-
-        if pages == '機械学習デモ':
-
-            # ページタイトルと説明
-            st.subheader('機械学習デモ')
-            st.write('このページでは、非データサイエンティスト向けの機械学習デモを行います。')
-            st.write('機械学習モデルは、機械学習のためのライブラリを用意しています。')
-            st.write('予測させたいターゲット、モデル、学習器を選択してください。')
-
-            st.error('分類器モデルについては各モデル未実装です。')
-
-            # セッションステートからデータを取得
-            if st.session_state.data is not None:
-                df = st.session_state.data
-
-            else:
-                st.warning('データが読み込まれていません。データ読み込みページで、CSVファイルをアップロードしてください。')
-
-            # ターゲットの選択
-            target = st.selectbox('ターゲットを選択してください。', df.columns)
-
-            # ターゲットと特徴量を指定
-            X = df.drop(columns=[target])
-            y = df[target]
-
-            # データの分割
-            X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=80)
-
-            # モデル選択
-            model_list = st.selectbox('モデルを選択してください。', ['Random Forest', 'XGBoost', 'LightGBM'])
-
-            # 各モデルで条件分岐
             # ランダムフォレスト
-            if model_list == 'Random Forest':
+            from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
 
-                # 分類器か回帰器の選択
-                task_rf = st.selectbox('学習器を選択してください。', ['回帰器', '分類器'])
+            # XGBosot
+            import xgboost as xgb
 
-                if task_rf == '分類器':
-                    rf = RandomForestClassifier()
-                    st.error('未実装です。')
-                if task_rf == '回帰器':
-                    rf = RandomForestRegressor()
+            # LightGBM
+            import lightgbm as lgb
 
-                # パラメータをGUIで指定
-                st.subheader('Random Forestのハイパーパラメータを決定してください。')
-                n_estimators = st.slider('n_estimators', 100, 500, 100, 100)
-                max_depth = st.slider('max_depth', 3, 9, 3, 2)
-                min_samples_split = st.slider('min_samples_split', 2, 10, 2, 2)
-                min_samples_leaf = st.slider('min_samples_leaf', 1, 5, 1)
+            # 評価指標
+            from sklearn.metrics import r2_score, mean_absolute_error, mean_squared_error, accuracy_score, precision_score, recall_score, f1_score
+            from math import sqrt
 
-                if st.button('学習'):
 
-                    # モデル学習
-                    rf.set_params(n_estimators=n_estimators, max_depth=max_depth, min_samples_split=min_samples_split,
-                            min_samples_leaf=min_samples_leaf)
-                    rf.fit(X_train, y_train)
+            ### ---- マルチページ作成 ---- ###
+            # サイドバーページを作成
+            pages = st.sidebar.radio('Pages', ['データ読み込み', '機械学習デモ'])
 
-                    # 予測値の取得
-                    y_pred = rf.predict(X_test)
+            ### ---- データ読み込み ---- ###
+            if pages == 'データ読み込み':
 
-                    # 学習が終了したかの確認
-                    st.success('学習が完了しました。')
+                # ページタイトルと説明
+                st.subheader('データ読み込み')
+                st.write('このページではデータの読み込み、およびデータの概要を確認することを目的とします。')
 
-                    # 評価指標の計算と表示
+                # セッションステートの初期化
+                if 'data' not in st.session_state:
+                    st.session_state.data = None
+
+                uploaded_file = st.file_uploader('csvファイルをアップロードしてください。', type = ['csv'])
+
+                if uploaded_file :
+                    df = pd.read_csv(uploaded_file)
+                    st.write('データテーブル')
+                    st.dataframe(df)
+                    st.write('データの統計量')
+                    st.write(df.describe())
+
+                    col1, col2 = st.columns(2)
+
+                    with col1 :
+                        st.write('欠損値の有無')
+                        st.write(df.isnull().sum())
+
+                    with col2 :
+                        st.write('データの型')
+                        st.write(df.dtypes)
+                    
+                    st.session_state.data = df
+
+            if pages == '機械学習デモ':
+
+                # ページタイトルと説明
+                st.subheader('機械学習デモ')
+                st.write('このページでは、非データサイエンティスト向けの機械学習デモを行います。')
+                st.write('機械学習モデルは、機械学習のためのライブラリを用意しています。')
+                st.write('予測させたいターゲット、モデル、学習器を選択してください。')
+
+                st.error('分類器モデルについては各モデル未実装です。')
+
+                # セッションステートからデータを取得
+                if st.session_state.data is not None:
+                    df = st.session_state.data
+
+                else:
+                    st.warning('データが読み込まれていません。データ読み込みページで、CSVファイルをアップロードしてください。')
+
+                # ターゲットの選択
+                target = st.selectbox('ターゲットを選択してください。', df.columns)
+
+                # ターゲットと特徴量を指定
+                X = df.drop(columns=[target])
+                y = df[target]
+
+                # データの分割
+                X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=80)
+
+                # モデル選択
+                model_list = st.selectbox('モデルを選択してください。', ['Random Forest', 'XGBoost', 'LightGBM'])
+
+                # 各モデルで条件分岐
+                # ランダムフォレスト
+                if model_list == 'Random Forest':
+
+                    # 分類器か回帰器の選択
+                    task_rf = st.selectbox('学習器を選択してください。', ['回帰器', '分類器'])
+
                     if task_rf == '分類器':
-                        accuracy = accuracy_score(y_test, y_pred)
-                        precision = precision_score(y_test, y_pred, average='weighted')
-                        recall = recall_score(y_test, y_pred, average='weighted')
-                        f1 = f1_score(y_test, y_pred, average='weighted')
-                        st.write('評価指標（分類）:')
-                        st.write('Accuracy:', accuracy)
-                        st.write('Precision:', precision)
-                        st.write('Recall:', recall)
-                        st.write('F1-score:', f1)
-
+                        rf = RandomForestClassifier()
+                        st.error('未実装です。')
                     if task_rf == '回帰器':
-                        r2 = r2_score(y_test, y_pred)
-                        rmse = sqrt(mean_squared_error(y_test, y_pred))
-                        mae = mean_absolute_error(y_test, y_pred)
-                        st.write('評価指標（回帰）:')
-                        st.write('R2:', r2)
-                        st.write('RMSE:', rmse)
-                        st.write('MAE:', mae)
-                    
-                    # 特徴量の重要度可視化
-                    importances = rf.feature_importances_
-                    feature_names = X_train.columns
-                    importance_df = pd.DataFrame({'Feature': feature_names, 'Importance': importances})
-                    importance_df = importance_df.sort_values('Importance', ascending=False)
-                    
-                    fig, ax = plt.subplots()
-                    ax.barh(importance_df['Feature'], importance_df['Importance'])
-                    ax.set_xlabel('Importance')
-                    ax.set_ylabel('Feature')
-                    ax.set_title('Feature Importances')
-                    
-                    st.pyplot(fig)
-            
-            if model_list == 'XGBoost':
+                        rf = RandomForestRegressor()
 
-                task_xgb = st.selectbox('学習器を選択してください', ['回帰器', '分類器'])
+                    # パラメータをGUIで指定
+                    st.subheader('Random Forestのハイパーパラメータを決定してください。')
+                    n_estimators = st.slider('n_estimators', 100, 500, 100, 100)
+                    max_depth = st.slider('max_depth', 3, 9, 3, 2)
+                    min_samples_split = st.slider('min_samples_split', 2, 10, 2, 2)
+                    min_samples_leaf = st.slider('min_samples_leaf', 1, 5, 1)
 
-                if task_xgb == '分類器':
-                    st.error('未実装です。')
+                    if st.button('学習'):
 
-                st.subheader('XGBoostのハイパーパラメータを決定してください。')
+                        # モデル学習
+                        rf.set_params(n_estimators=n_estimators, max_depth=max_depth, min_samples_split=min_samples_split,
+                                min_samples_leaf=min_samples_leaf)
+                        rf.fit(X_train, y_train)
 
-                # ハイパーパラメータの設定
-                n_estimators = st.slider('n_estimators', 10, 1000, 100, 10)
-                max_depth = st.slider('max_depth', 1, 10, 3, 1)
-                learning_rate = st.slider('learning_rate', 0.01, 1.0, 0.1, 0.01)
-                subsample = st.slider('subsample', 0.1, 1.0, 1.0, 0.1)
-                colsample_bytree = st.slider('colsample_bytree', 0.1, 1.0, 1.0, 0.1)
+                        # 予測値の取得
+                        y_pred = rf.predict(X_test)
 
-                if st.button('学習'):
-                # モデル学習
+                        # 学習が終了したかの確認
+                        st.success('学習が完了しました。')
+
+                        # 評価指標の計算と表示
+                        if task_rf == '分類器':
+                            accuracy = accuracy_score(y_test, y_pred)
+                            precision = precision_score(y_test, y_pred, average='weighted')
+                            recall = recall_score(y_test, y_pred, average='weighted')
+                            f1 = f1_score(y_test, y_pred, average='weighted')
+                            st.write('評価指標（分類）:')
+                            st.write('Accuracy:', accuracy)
+                            st.write('Precision:', precision)
+                            st.write('Recall:', recall)
+                            st.write('F1-score:', f1)
+
+                        if task_rf == '回帰器':
+                            r2 = r2_score(y_test, y_pred)
+                            rmse = sqrt(mean_squared_error(y_test, y_pred))
+                            mae = mean_absolute_error(y_test, y_pred)
+                            st.write('評価指標（回帰）:')
+                            st.write('R2:', r2)
+                            st.write('RMSE:', rmse)
+                            st.write('MAE:', mae)
+                        
+                        # 特徴量の重要度可視化
+                        importances = rf.feature_importances_
+                        feature_names = X_train.columns
+                        importance_df = pd.DataFrame({'Feature': feature_names, 'Importance': importances})
+                        importance_df = importance_df.sort_values('Importance', ascending=False)
+                        
+                        fig, ax = plt.subplots()
+                        ax.barh(importance_df['Feature'], importance_df['Importance'])
+                        ax.set_xlabel('Importance')
+                        ax.set_ylabel('Feature')
+                        ax.set_title('Feature Importances')
+                        
+                        st.pyplot(fig)
+                
+                if model_list == 'XGBoost':
+
+                    task_xgb = st.selectbox('学習器を選択してください', ['回帰器', '分類器'])
+
                     if task_xgb == '分類器':
-                        xgb_model = xgb.XGBClassifier(n_estimators=n_estimators, max_depth=max_depth, learning_rate=learning_rate,
-                                                subsample=subsample, colsample_bytree=colsample_bytree, random_state=80)
-                    else:
-                        xgb_model = xgb.XGBRegressor(n_estimators=n_estimators, max_depth=max_depth, learning_rate=learning_rate,
-                                                subsample=subsample, colsample_bytree=colsample_bytree, random_state=80)
-                    
-                    xgb_model.fit(X_train, y_train)
-                    
-                    # 予測値の取得
-                    y_pred = xgb_model.predict(X_test)
-                    
-                    # 学習が終了したかの確認
-                    st.success('学習が完了しました。')
-                    
-                    # 評価指標の計算と表示
-                    if task_xgb == '分類器':
-                        accuracy = accuracy_score(y_test, y_pred)
-                        precision = precision_score(y_test, y_pred, average='weighted')
-                        recall = recall_score(y_test, y_pred, average='weighted')
-                        f1 = f1_score(y_test, y_pred, average='weighted')
-                        
-                        st.write('評価指標（分類）:')
-                        st.write('Accuracy:', accuracy)
-                        st.write('Precision:', precision)
-                        st.write('Recall:', recall)
-                        st.write('F1-score:', f1)
-                        
-                    if task_xgb == '回帰器':
-                        r2 = r2_score(y_test, y_pred)
-                        rmse = sqrt(mean_squared_error(y_test, y_pred))
-                        mae = mean_absolute_error(y_test, y_pred)
-                        
-                        st.write('評価指標（回帰）:')
-                        st.write('R2:', r2)
-                        st.write('RMSE:', rmse)
-                        st.write('MAE:', mae)
-                    
-                    # 特徴量の重要度の可視化
-                    importances = xgb_model.feature_importances_
-                    feature_names = X_train.columns
-                    importance_df = pd.DataFrame({'Feature': feature_names, 'Importance': importances})
-                    importance_df = importance_df.sort_values('Importance', ascending=False)
-                    
-                    fig, ax = plt.subplots()
-                    ax.barh(importance_df['Feature'], importance_df['Importance'])
-                    ax.set_xlabel('Importance')
-                    ax.set_ylabel('Feature')
-                    ax.set_title('Feature Importances')
-                    
-                    st.pyplot(fig)
+                        st.error('未実装です。')
 
-            if model_list == 'LightGBM':
+                    st.subheader('XGBoostのハイパーパラメータを決定してください。')
 
+                    # ハイパーパラメータの設定
+                    n_estimators = st.slider('n_estimators', 10, 1000, 100, 10)
+                    max_depth = st.slider('max_depth', 1, 10, 3, 1)
+                    learning_rate = st.slider('learning_rate', 0.01, 1.0, 0.1, 0.01)
+                    subsample = st.slider('subsample', 0.1, 1.0, 1.0, 0.1)
+                    colsample_bytree = st.slider('colsample_bytree', 0.1, 1.0, 1.0, 0.1)
 
-                task_lgb = st.selectbox('学習器を選択してください。', ['回帰器', '分類器'])
-
-                if task_lgb == '分類器':
-                    st.error('未実装です。')
-
-                st.subheader('LightGBMのハイパーパラメータを決定してください。')
-
-                # ハイパーパラメータの設定
-                num_leaves = st.slider('num_leaves', 2, 100, 31, 1)
-                max_depth = st.slider('max_depth', -1, 100, -1, 1)
-                learning_rate = st.slider('learning_rate', 0.01, 1.0, 0.1, 0.01)
-                n_estimators = st.slider('n_estimators', 10, 1000, 100, 10)
-                subsample = st.slider('subsample', 0.1, 1.0, 1.0, 0.1)
-                colsample_bytree = st.slider('colsample_bytree', 0.1, 1.0, 1.0, 0.1)
-            
-                if st.button('学習'):
+                    if st.button('学習'):
                     # モデル学習
-                    if task_lgb == '回帰器':
-                        lgb_model = lgb.LGBMRegressor(num_leaves=num_leaves, max_depth=max_depth, learning_rate=learning_rate,
-                                                n_estimators=n_estimators, subsample=subsample, colsample_bytree=colsample_bytree,
-                                                random_state=80)
-                    else:
-                        lgb_model = lgb.LGBMClassifier(num_leaves=num_leaves, max_depth=max_depth, learning_rate=learning_rate,
-                                                n_estimators=n_estimators, subsample=subsample, colsample_bytree=colsample_bytree,
-                                                random_state=80)
-                    
-                    lgb_model.fit(X_train, y_train)
-                    
-                    # 予測値の取得
-                    y_pred = lgb_model.predict(X_test)
-                    
-                    # 学習が終了したかの確認
-                    st.success('学習が完了しました。')
-                    
-                    # 評価指標の計算と表示
-                    if task_lgb == '回帰器':
-                        r2 = r2_score(y_test, y_pred)
-                        rmse = sqrt(mean_squared_error(y_test, y_pred))
-                        mae = mean_absolute_error(y_test, y_pred)
+                        if task_xgb == '分類器':
+                            xgb_model = xgb.XGBClassifier(n_estimators=n_estimators, max_depth=max_depth, learning_rate=learning_rate,
+                                                    subsample=subsample, colsample_bytree=colsample_bytree, random_state=80)
+                        else:
+                            xgb_model = xgb.XGBRegressor(n_estimators=n_estimators, max_depth=max_depth, learning_rate=learning_rate,
+                                                    subsample=subsample, colsample_bytree=colsample_bytree, random_state=80)
                         
-                        st.write('評価指標（回帰）:')
-                        st.write('R2:', r2)
-                        st.write('RMSE:', rmse)
-                        st.write('MAE:', mae)
-                    else:
-                        accuracy = accuracy_score(y_test, y_pred)
-                        precision = precision_score(y_test, y_pred, average='weighted')
-                        recall = recall_score(y_test, y_pred, average='weighted')
-                        f1 = f1_score(y_test, y_pred, average='weighted')
+                        xgb_model.fit(X_train, y_train)
                         
-                        st.write('評価指標（分類）:')
-                        st.write('Accuracy:', accuracy)
-                        st.write('Precision:', precision)
-                        st.write('Recall:', recall)
-                        st.write('F1-score:', f1)
-                    
-                    # 特徴量の重要度の可視化
-                    importances = lgb_model.feature_importances_
-                    feature_names = X_train.columns
-                    importance_df = pd.DataFrame({'Feature': feature_names, 'Importance': importances})
-                    importance_df = importance_df.sort_values('Importance', ascending=False)
-                    
-                    fig, ax = plt.subplots()
-                    ax.barh(importance_df['Feature'], importance_df['Importance'])
-                    ax.set_xlabel('Importance')
-                    ax.set_ylabel('Feature')
-                    ax.set_title('Feature Importances')
-                    
-                    st.pyplot(fig)
-        ''')
+                        # 予測値の取得
+                        y_pred = xgb_model.predict(X_test)
+                        
+                        # 学習が終了したかの確認
+                        st.success('学習が完了しました。')
+                        
+                        # 評価指標の計算と表示
+                        if task_xgb == '分類器':
+                            accuracy = accuracy_score(y_test, y_pred)
+                            precision = precision_score(y_test, y_pred, average='weighted')
+                            recall = recall_score(y_test, y_pred, average='weighted')
+                            f1 = f1_score(y_test, y_pred, average='weighted')
+                            
+                            st.write('評価指標（分類）:')
+                            st.write('Accuracy:', accuracy)
+                            st.write('Precision:', precision)
+                            st.write('Recall:', recall)
+                            st.write('F1-score:', f1)
+                            
+                        if task_xgb == '回帰器':
+                            r2 = r2_score(y_test, y_pred)
+                            rmse = sqrt(mean_squared_error(y_test, y_pred))
+                            mae = mean_absolute_error(y_test, y_pred)
+                            
+                            st.write('評価指標（回帰）:')
+                            st.write('R2:', r2)
+                            st.write('RMSE:', rmse)
+                            st.write('MAE:', mae)
+                        
+                        # 特徴量の重要度の可視化
+                        importances = xgb_model.feature_importances_
+                        feature_names = X_train.columns
+                        importance_df = pd.DataFrame({'Feature': feature_names, 'Importance': importances})
+                        importance_df = importance_df.sort_values('Importance', ascending=False)
+                        
+                        fig, ax = plt.subplots()
+                        ax.barh(importance_df['Feature'], importance_df['Importance'])
+                        ax.set_xlabel('Importance')
+                        ax.set_ylabel('Feature')
+                        ax.set_title('Feature Importances')
+                        
+                        st.pyplot(fig)
+
+                if model_list == 'LightGBM':
+
+
+                    task_lgb = st.selectbox('学習器を選択してください。', ['回帰器', '分類器'])
+
+                    if task_lgb == '分類器':
+                        st.error('未実装です。')
+
+                    st.subheader('LightGBMのハイパーパラメータを決定してください。')
+
+                    # ハイパーパラメータの設定
+                    num_leaves = st.slider('num_leaves', 2, 100, 31, 1)
+                    max_depth = st.slider('max_depth', -1, 100, -1, 1)
+                    learning_rate = st.slider('learning_rate', 0.01, 1.0, 0.1, 0.01)
+                    n_estimators = st.slider('n_estimators', 10, 1000, 100, 10)
+                    subsample = st.slider('subsample', 0.1, 1.0, 1.0, 0.1)
+                    colsample_bytree = st.slider('colsample_bytree', 0.1, 1.0, 1.0, 0.1)
+                
+                    if st.button('学習'):
+                        # モデル学習
+                        if task_lgb == '回帰器':
+                            lgb_model = lgb.LGBMRegressor(num_leaves=num_leaves, max_depth=max_depth, learning_rate=learning_rate,
+                                                    n_estimators=n_estimators, subsample=subsample, colsample_bytree=colsample_bytree,
+                                                    random_state=80)
+                        else:
+                            lgb_model = lgb.LGBMClassifier(num_leaves=num_leaves, max_depth=max_depth, learning_rate=learning_rate,
+                                                    n_estimators=n_estimators, subsample=subsample, colsample_bytree=colsample_bytree,
+                                                    random_state=80)
+                        
+                        lgb_model.fit(X_train, y_train)
+                        
+                        # 予測値の取得
+                        y_pred = lgb_model.predict(X_test)
+                        
+                        # 学習が終了したかの確認
+                        st.success('学習が完了しました。')
+                        
+                        # 評価指標の計算と表示
+                        if task_lgb == '回帰器':
+                            r2 = r2_score(y_test, y_pred)
+                            rmse = sqrt(mean_squared_error(y_test, y_pred))
+                            mae = mean_absolute_error(y_test, y_pred)
+                            
+                            st.write('評価指標（回帰）:')
+                            st.write('R2:', r2)
+                            st.write('RMSE:', rmse)
+                            st.write('MAE:', mae)
+                        else:
+                            accuracy = accuracy_score(y_test, y_pred)
+                            precision = precision_score(y_test, y_pred, average='weighted')
+                            recall = recall_score(y_test, y_pred, average='weighted')
+                            f1 = f1_score(y_test, y_pred, average='weighted')
+                            
+                            st.write('評価指標（分類）:')
+                            st.write('Accuracy:', accuracy)
+                            st.write('Precision:', precision)
+                            st.write('Recall:', recall)
+                            st.write('F1-score:', f1)
+                        
+                        # 特徴量の重要度の可視化
+                        importances = lgb_model.feature_importances_
+                        feature_names = X_train.columns
+                        importance_df = pd.DataFrame({'Feature': feature_names, 'Importance': importances})
+                        importance_df = importance_df.sort_values('Importance', ascending=False)
+                        
+                        fig, ax = plt.subplots()
+                        ax.barh(importance_df['Feature'], importance_df['Importance'])
+                        ax.set_xlabel('Importance')
+                        ax.set_ylabel('Feature')
+                        ax.set_title('Feature Importances')
+                        
+                        st.pyplot(fig)
+            ''')
