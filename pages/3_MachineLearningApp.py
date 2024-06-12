@@ -110,6 +110,16 @@ st.markdown('''
         ''')
 
 st.code('''
+        import matplotlib.pyplot as plt 
+        import japanize_matplotlib
+
+        from sklearn.model_selection import train_test_split
+        from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
+        import xgboost as xgb
+        import lightgbm as lgb
+        from sklearn.metrics import r2_score, mean_absolute_error, mean_squared_error, accuracy_score, precision_score, recall_score, f1_score
+        from math import sqrt
+
         if pages == '機械学習デモ':
 
             st.subheader('機械学習デモ')
@@ -154,19 +164,19 @@ st.code('''
 
                 if model_list == 'Random Forest':
 
-                task_rf = st.selectbox('学習器を選択してください。', ['回帰器', '分類器'])
+                    task_rf = st.selectbox('学習器を選択してください。', ['回帰器', '分類器'])
 
-                if task_rf == '分類器':
-                    rf = RandomForestClassifier()
-                    st.error('未実装です。')
-                if task_rf == '回帰器':
-                    rf = RandomForestRegressor()
+                    if task_rf == '分類器':
+                        rf = RandomForestClassifier()
+                        st.error('未実装です。')
+                    else:
+                        rf = RandomForestRegressor()
 
-                st.subheader('Random Forestのハイパーパラメータを決定してください。')
-                n_estimators = st.slider('n_estimators', 100, 500, 100, 100)
-                max_depth = st.slider('max_depth', 3, 9, 3, 2)
-                min_samples_split = st.slider('min_samples_split', 2, 10, 2, 2)
-                min_samples_leaf = st.slider('min_samples_leaf', 1, 5, 1)
+                    st.subheader('Random Forestのハイパーパラメータを決定してください。')
+                    n_estimators = st.slider('n_estimators', 100, 500, 100, 100)
+                    max_depth = st.slider('max_depth', 3, 9, 3, 2)
+                    min_samples_split = st.slider('min_samples_split', 2, 10, 2, 2)
+                    min_samples_leaf = st.slider('min_samples_leaf', 1, 5, 1)
         ''')
 
 st.markdown('''
@@ -180,16 +190,6 @@ st.markdown('''
         ''')
 
 st.code('''
-        import matplotlib.pyplot as plt 
-        import japanize_matplotlib
-
-        from sklearn.model_selection import train_test_split
-        from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
-        import xgboost as xgb
-        import lightgbm as lgb
-        from sklearn.metrics import r2_score, mean_absolute_error, mean_squared_error, accuracy_score, precision_score, recall_score, f1_score
-        from math import sqrt
-
         if pages == '機械学習デモ' :
                 
                 (略)
@@ -223,7 +223,7 @@ st.code('''
                             st.write('Recall:', recall)
                             st.write('F1-score:', f1)
 
-                        if task_rf == '回帰器':
+                        else:
                             r2 = r2_score(y_test, y_pred)
                             rmse = sqrt(mean_squared_error(y_test, y_pred))
                             mae = mean_absolute_error(y_test, y_pred)
@@ -313,7 +313,7 @@ st.code('''
                             st.write('Recall:', recall)
                             st.write('F1-score:', f1)
                             
-                        if task_xgb == '回帰器':
+                        else:
                             r2 = r2_score(y_test, y_pred)
                             rmse = sqrt(mean_squared_error(y_test, y_pred))
                             mae = mean_absolute_error(y_test, y_pred)
@@ -523,7 +523,7 @@ with st.expander('全体コード'):
                     if task_rf == '分類器':
                         rf = RandomForestClassifier()
                         st.error('未実装です。')
-                    if task_rf == '回帰器':
+                    else:
                         rf = RandomForestRegressor()
 
                     # パラメータをGUIで指定
@@ -558,7 +558,7 @@ with st.expander('全体コード'):
                             st.write('Recall:', recall)
                             st.write('F1-score:', f1)
 
-                        if task_rf == '回帰器':
+                        else:
                             r2 = r2_score(y_test, y_pred)
                             rmse = sqrt(mean_squared_error(y_test, y_pred))
                             mae = mean_absolute_error(y_test, y_pred)
@@ -627,7 +627,7 @@ with st.expander('全体コード'):
                             st.write('Recall:', recall)
                             st.write('F1-score:', f1)
                             
-                        if task_xgb == '回帰器':
+                        else:
                             r2 = r2_score(y_test, y_pred)
                             rmse = sqrt(mean_squared_error(y_test, y_pred))
                             mae = mean_absolute_error(y_test, y_pred)
